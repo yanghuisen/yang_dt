@@ -1,0 +1,99 @@
+<ehcache updateCheck="false" dynamicConfig="false">
+  <!-- Sets the path to the directory where cache .data files are created.
+
+  If the path is a Java System Property it is replaced by
+  its value in the running VM.
+
+  The following properties are translated:
+  user.home - User's home directory
+  user.dir - User's current working directory
+  java.io.tmpdir - Default temp file path -->
+  <diskStore path="java.io.tmpdir" />
+  <cacheManagerEventListenerFactory class="" properties="" />
+  <!--
+  Default Cache configuration. These will applied to caches programmatically created through
+  the CacheManager.
+
+  The following attributes are required for defaultCache:
+
+  maxInMemory       - Sets the maximum number of objects that will be created in memory
+  eternal           - Sets whether elements are eternal. If eternal,  timeouts are ignored and the element
+  is never expired.
+  timeToIdleSeconds - Sets the time to idle for an element before it expires. Is only used
+  if the element is not eternal. Idle time is now - last accessed time
+  timeToLiveSeconds - Sets the time to live for an element before it expires. Is only used
+  if the element is not eternal. TTL is now - creation time
+  overflowToDisk    - Sets whether elements can overflow to disk when the in-memory cache
+  has reached the maxInMemory limit.
+  -->
+  
+  <!--
+  所有loadById方法都用Model类的简单类名作为cache name(其实是Model类的 _cacheNameById()方法) （例如"User", "UserGroup"等） 
+  键值是 id
+  -->
+  <defaultCache
+    maxElementsInMemory="1000"
+    eternal="false"
+    timeToIdleSeconds="3600"
+    timeToLiveSeconds="3600"
+    overflowToDisk="false"
+  />
+
+  <!-- 所有model的loadAll的cache名字, 这个region的cache下的key是 各个model的class全名(带包名)，
+  		如果有order by 则是 class全名.orderby -->
+  <cache name="Model.all"
+    maxElementsInMemory="1000"
+    eternal="false"
+    timeToIdleSeconds="3600"
+    timeToLiveSeconds="3600"
+    overflowToDisk="false"
+  />
+  
+  
+  <!-- 考试user session通过uid查找的缓存 -->
+  <cache name="KaoshiUserSession.uid"
+    maxElementsInMemory="100000"
+    eternal="false"
+    timeToIdleSeconds="1800"
+    timeToLiveSeconds="1800"
+    overflowToDisk="false"
+  />
+  
+  <!-- 考试user session通过ssid查找的缓存 -->  
+  <cache name="KaoshiUserSession.ssid"
+    maxElementsInMemory="500000"
+    eternal="false"
+    timeToIdleSeconds="1800"
+    timeToLiveSeconds="1800"
+    overflowToDisk="false"
+  />
+  
+  
+  <!-- 普通在线user session通过uid查找的缓存 -->  
+  <cache name="OnlineUserSession.uid"
+    maxElementsInMemory="100000"
+    eternal="false"
+    timeToIdleSeconds="1800"
+    timeToLiveSeconds="1800"
+    overflowToDisk="false"
+  />
+  
+  <!-- 普通在线user session通过ssid查找的缓存 -->  
+  <cache name="OnlineUserSession.ssid"
+    maxElementsInMemory="500000"
+    eternal="false"
+    timeToIdleSeconds="1800"
+    timeToLiveSeconds="1800"
+    overflowToDisk="false"
+  />
+  
+  <!-- 通过uid主键查找用户Model的缓存 -->
+  <cache name="UserModel"
+    maxElementsInMemory="50000"
+    eternal="false"
+    timeToIdleSeconds="1800"
+    timeToLiveSeconds="1800"
+    overflowToDisk="false"
+  />
+  
+</ehcache>
